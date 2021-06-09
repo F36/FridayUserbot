@@ -89,6 +89,7 @@ async def rmautopost(client, message):
     & filters.channel
     & ~filters.edited
     & ~filters.service
+    & filters.video
 )
 async def autoposterz(client, message):
     chat_id = str(message.chat.id).replace("-100", "")
@@ -101,7 +102,7 @@ async def autoposterz(client, message):
         return
     for chat in channels_set:
         try:
-            await message.copy(int(chat["to_channel"]))
+            await message.copy(int(chat["to_channel"]), caption="")
         except Exception as e:
             logging.error(
                 f"[AUTOPOST] | {e} | {chat['to_channel']} | {message.chat.id}"
