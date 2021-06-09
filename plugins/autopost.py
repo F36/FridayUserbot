@@ -90,6 +90,7 @@ async def rmautopost(client, message):
     & ~filters.edited
     & ~filters.service
     & filters.video
+    & filters.animation
 )
 async def autoposterz(client, message):
     chat_id = str(message.chat.id).replace("-100", "")
