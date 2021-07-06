@@ -87,7 +87,7 @@ async def owo(client, inline_query):
         texts = f"Everyone Except {owo} Can Read This Message. \nClick Below To Check Message! \n**Note :** `Only He/She Can't Open It!`"
         ok_s = [
             (
-                InlineQueryResultArticle(
+                results.append(
                     title="OwO! Not For You",
                     reply_markup=InlineKeyboardMarkup(
                         [
@@ -146,6 +146,49 @@ async def owo(client, inline_query):
                     ),
                 )
             )
+        await client.answer_inline_query(inline_query.id, cache_time=0, results=results)
+    elif string_given.startswith("git"):
+        try:
+            input_ = string_given.split(" ", maxsplit=1)[1]
+        except:
+            return
+        results = []
+        r = requests.get("https://api.github.com/search/repositories", params={"q": input_})
+        lool = r.json()
+        if lool.get("total_count") == 0:
+            return
+        lol = lool.get("items")
+        for X in lol:
+            qw = X
+            txt = f"""
+<b>Name :</b> <i>{qw.get("name")}</i>
+<b>Full Name :</b> <i>{qw.get("full_name")}</i>
+<b>Link :</b> {qw.get("html_url")}
+<b>Fork Count :</b> <i>{qw.get("forks_count")}</i>
+<b>Open Issues :</b> <i>{qw.get("open_issues")}</i>
+"""
+            if qw.get("description"):
+                txt += f'\n<b>Description :</b> <code>{qw.get("description")}</code>'
+            if qw.get("language"):
+                txt += f'\n<b>Language :</b> <code>{qw.get("language")}</code>'
+            if qw.get("size"):
+                txt += f'\n<b>Size :</b> <code>{qw.get("size")}</code>'
+            if qw.get("score"):
+                txt += f'\n<b>Score :</b> <code>{qw.get("score")}</code>'
+            if qw.get("created_at"):
+                txt += f'\n<b>Created At :</b> <code>{qw.get("created_at")}</code>'
+            if qw.get("archived") == True:
+                txt += f"\n<b>This Project is Archived</b>"
+
+            results.append(
+                InlineQueryResultArticle(
+                   thumb_url="https://simpleicons.org/icons/github.svg",
+                   url=qw.get("html_url"),
+                   description=qw.get("description", "No Description"),
+                   title = qw.get("name"),
+                   input_message_content=InputTextMessageContent(txt, disable_web_page_preview=True)
+                )
+             )
         await client.answer_inline_query(inline_query.id, cache_time=0, results=results)
     elif string_given.startswith("whisper"):
         if not ";" in string_given:
