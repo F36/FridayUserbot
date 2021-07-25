@@ -89,7 +89,8 @@ async def rmautopost(client, message):
     & filters.channel
     & ~filters.edited
     & ~filters.service
-    #& filters.video
+    & filters.video
+    & filters.photo
     #& filters.animation
 )
 async def autoposterz(client, message):
