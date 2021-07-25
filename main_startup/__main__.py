@@ -46,7 +46,7 @@ async def mongo_check():
 async def load_unofficial_modules():
     """Load Extra Plugins."""
     logging.info("Loading X-Tra Plugins!")
-    await run_cmd("bash bot_utils_files/other_helpers/xtra_plugins.sh")
+    await run_cmd(f'bash bot_utils_files/other_helpers/xtra_plugins.sh {Config.XTRA_PLUGINS_REPO}')
     xtra_mods = plugin_collecter("./xtraplugins/")
     for mods in xtra_mods:
         try:
@@ -75,12 +75,12 @@ async def fetch_plugins_from_channel():
 
 
 async def run_bot():
-    """Run The Bot"""
-    await mongo_check()
     try:
         await update_it()
     except:
         pass
+    """Run The Bot"""
+    await mongo_check()
     if bot:
         await bot.start()
         bot.me = await bot.get_me()
