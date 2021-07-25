@@ -89,6 +89,7 @@ async def rmautopost(client, message):
     & filters.channel
     & ~filters.edited
     & ~filters.service
+    & ~filters.text
     #& filters.video
     #& filters.photo
     #& filters.animation
