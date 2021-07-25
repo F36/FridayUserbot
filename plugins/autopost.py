@@ -89,15 +89,15 @@ async def rmautopost(client, message):
     & filters.channel
     & ~filters.edited
     & ~filters.service
-    #& ~filters.text
-    & filters.video
-    & filters.photo
+    & ~filters.text
+    #& filters.video
+    #& filters.photo
     #& filters.animation
 )
 async def autoposterz(client, message):
     chat_id = message.chat.id
-    #if message.caption:
-    #    return
+    if message.text:
+        return
     if not await get_autopost(int(chat_id)):
         return
     channels_set = await get_autopost(int(chat_id))
